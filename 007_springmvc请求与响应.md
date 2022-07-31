@@ -229,9 +229,132 @@ public class UserController {
 
 ## REST风格
 
-访问资源时使用行为动作区分对资源进行了何种操作，简化了地址栏，如需要传递参数，则直接在地址栏加上数字列
+访问资源时使用行为动作区分对资源进行了何种操作，简化了地址栏，如需要传递参数，则直接在地址栏加上数字。
 
-查询全部信息：GET（查询）
+根据REST风格对资源进行访问叫RESTful
+
+查询全部用户信息：GET（查询）
+
+查询指定用户信息：GET（查询）
+
+添加用户信息：POST（新增/保存）
+
+修改用户信息：PUT（修改/更新）
+
+删除用户信息：DELETE（删除）
+
+表述模块的名称通常使用负数，如http://localhost/users/1
+
+### RESTful简化开发
+
+将@RequestMapping提前，使用具体的提交方式注解
+
+将@ResponseBody，@Controller合成@RestController，具体看代码
+
+```java
+package com.lillanm.controller;
+
+import com.lillanm.pojo.User;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+/*
+@Controller
+public class UserController {
+
+    //设置当前请求方法为POST，表示REST风格中的添加操作
+    @RequestMapping(value = "/users",method = RequestMethod.POST)
+    @ResponseBody
+    public String save(){
+        System.out.println("user save...");
+        return "{'module':'user save'}";
+    }
+
+    //设置当前请求方法为DELETE，表示REST风格中的删除操作
+    //@PathVariable注解用于设置路径变量（路径参数），要求路径上设置对应的占位符，并且占位符名称与方法形参名称相同
+    @RequestMapping(value = "/users/{id}",method = RequestMethod.DELETE)
+    @ResponseBody
+    public String delete(@PathVariable Integer id){
+        System.out.println("user delete..." + id);
+        return "{'module':'user delete'}";
+    }
+
+    //设置当前请求方法为PUT，表示REST风格中的修改操作
+    @RequestMapping(value = "/users",method = RequestMethod.PUT)
+    @ResponseBody
+    public String update(@RequestBody User user){
+        System.out.println("user update..."+user);
+        return "{'module':'user update'}";
+    }
+
+    //设置当前请求方法为GET，表示REST风格中的查询操作
+    //@PathVariable注解用于设置路径变量（路径参数），要求路径上设置对应的占位符，并且占位符名称与方法形参名称相同
+    @RequestMapping(value = "/users/{id}" ,method = RequestMethod.GET)
+    @ResponseBody
+    public String getById(@PathVariable Integer id){
+        System.out.println("user getById..."+id);
+        return "{'module':'user getById'}";
+    }
+
+    //设置当前请求方法为GET，表示REST风格中的查询操作
+    @RequestMapping(value = "/users",method = RequestMethod.GET)
+    @ResponseBody
+    public String getAll(){
+        System.out.println("user getAll...");
+        return "{'module':'user getAll'}";
+    }
+
+}
+*/
+
+/**
+ * 以下为简化版开发
+ */
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    //设置当前请求方法为POST，表示REST风格中的添加操作
+    @PostMapping
+    public String save(@RequestBody User user){
+        System.out.println("user save...");
+        return "{'module':'user save'}";
+    }
+
+    //设置当前请求方法为DELETE，表示REST风格中的删除操作
+    //@PathVariable注解用于设置路径变量（路径参数），要求路径上设置对应的占位符，并且占位符名称与方法形参名称相同
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable Integer id){
+        System.out.println("user delete..." + id);
+        return "{'module':'user delete'}";
+    }
+
+    //设置当前请求方法为PUT，表示REST风格中的修改操作
+    @PutMapping
+    public String update(@RequestBody User user){
+        System.out.println("user update..."+user);
+        return "{'module':'user update'}";
+    }
+
+    //设置当前请求方法为GET，表示REST风格中的查询操作
+    //@PathVariable注解用于设置路径变量（路径参数），要求路径上设置对应的占位符，并且占位符名称与方法形参名称相同
+    @GetMapping("/{id}")
+    @ResponseBody
+    public String getById(@PathVariable Integer id){
+        System.out.println("user getById..."+id);
+        return "{'module':'user getById'}";
+    }
+
+    //设置当前请求方法为GET，表示REST风格中的查询操作
+    @GetMapping
+    @ResponseBody
+    public String getAll(){
+        System.out.println("user getAll...");
+        return "{'module':'user getAll'}";
+    }
+
+}
+```
 
 
 
